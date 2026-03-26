@@ -10,15 +10,23 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Setup Python Env') {
             steps {
-                sh 'pip3 install -r requirements.txt || true'
+                sh '''
+                python3 -m venv venv
+                . venv/bin/activate
+                pip install --upgrade pip
+                pip install -r requirements.txt || true
+                '''
             }
         }
 
         stage('Run App') {
             steps {
-                sh 'python3 main.py'
+                sh '''
+                . venv/bin/activate
+                python main.py
+                '''
             }
         }
     }
