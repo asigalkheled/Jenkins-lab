@@ -2,6 +2,12 @@ pipeline {
     agent { label 'DinD-inbound-node' }
 
     stages {
+        stage('Docker Info') {
+            steps {
+                sh 'docker info'
+            }
+        }
+
         stage('Pull NGINX') {
             steps {
                 sh 'docker pull nginx:latest'
