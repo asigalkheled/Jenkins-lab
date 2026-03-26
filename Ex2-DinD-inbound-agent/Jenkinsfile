@@ -1,0 +1,20 @@
+pipeline {
+    agent { label 'docker-agent' }
+
+    stages {
+        stage('Pull NGINX') {
+            steps {
+                sh 'docker pull nginx:latest'
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                sh '''
+                docker rm -f my-nginx || true
+                docker run -d -p 8000:80 --name my-nginx nginx:latest
+                '''
+            }
+        }
+    }
+}
